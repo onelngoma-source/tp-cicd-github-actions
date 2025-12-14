@@ -1,0 +1,44 @@
+name: CI Pipeline # Nom du workflow qui apparaitra sur GitHub
+
+# Déclencheurs (Triggers)
+on:
+  push:
+    branches: [ "main", "dev" ] # Se lance quand on push sur main ou dev
+  pull_request:
+    branches: [ "main", "dev" ] # Se lance aussi lors d'une Pull Request
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest # On utilise une machine virtuelle Linux fournie par GitHub
+
+    strategy:
+      matrix:
+        node-version: [18.x] # On peut tester sur plusieurs versions, ici on prend la 18
+
+    steps:
+    # 1. Récupérer le code
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # 2. Installer Node.js
+    - name: Set up Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm' # Optimise la vitesse d'installation
+
+    # 3. Installer les dépendances
+    - name: Install dependencies
+      run: npm ci # 'npm ci' est plus sûr que 'npm install' pour les serveurs CI
+
+    # 4. Lancer les tests
+    - name: Run tests
+      run: npm test
+
+    # 5. (Optionnel pour le TP) Générer un artefact simulé
+    # Ici, on vérifie juste que le build fonctionne ou on archive le code source
+    - name: Archive production artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: dist-files
+        path: .
