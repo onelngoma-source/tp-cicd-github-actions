@@ -15,11 +15,9 @@ jobs:
         node-version: [18.x]
 
     steps:
-    # Mise à jour vers v4
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    # Mise à jour vers v4
     - name: Set up Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
@@ -29,10 +27,14 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
+    # --- NOUVELLE ÉTAPE DE LINTING ---
+    - name: Run Linting (ESLint)
+      run: npm run lint
+    # ---------------------------------
+
     - name: Run tests
       run: npm test
 
-    # Mise à jour vers v4 (C'est celle-ci qui bloquait)
     - name: Archive production artifacts
       uses: actions/upload-artifact@v4
       with:
