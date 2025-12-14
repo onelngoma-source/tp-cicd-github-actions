@@ -11,7 +11,7 @@ Ce projet est une application Node.js dockerisée avec un pipeline CI/CD complet
 ## Fonctionnalités
 - **CI** : Tests unitaires automatisés avec Jest.
 - **Docker** : Build et Push automatique sur Docker Hub.
-- **CD** : Déploiement automatique sur Render.
+- **CD** : Déploiement automatique sur Render
 
 ## Lien de l'application
 [Voir l'application en ligne](https://tp-cicd-onel.onrender.com)
